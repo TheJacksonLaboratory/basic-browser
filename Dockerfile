@@ -15,7 +15,7 @@ RUN pip install --upgrade pip
 RUN pip install virtualenv
 
 # copy Basic Browser source code
-COPY basic.tar.gz basic_setup.sh /tmp/
+COPY basic.tar.gz scripts/basic_setup.sh /tmp/
 RUN cd /tmp && bash basic_setup.sh
 
 # Install zlib, XZ, pcre
@@ -47,14 +47,14 @@ RUN yum -y update
 RUN yum -y install mysql-server
 RUN yum -y install mysql-devel
 RUN pip install mysql-python
-ADD bind_0.cnf /etc/mysql/conf.d/bind_0.cnf
+ADD confs/bind_0.cnf /etc/mysql/conf.d/bind_0.cnf
 
 # create mysql database
-COPY mysql-run.sh /mysql-run.sh
+COPY scripts/mysql-run.sh /mysql-run.sh
 RUN chmod 700 /mysql-run.sh
 RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
 RUN . /mysql-run.sh mysqld --datadir=/var/lib/mysql --user=mysql
-ADD run.sh /run.sh
+ADD scripts/run.sh /run.sh
 RUN chmod 755 /*.sh
 
 # create mysql volume
@@ -73,10 +73,10 @@ RUN $BASIC_DIR/_py/bin/python -m pip uninstall -y pymongo
 RUN $BASIC_DIR/_py/bin/python -m pip install pymongo==2.3
 
 # install mongodb
-ADD mongodb-org.repo /etc/yum.repos.d/mongodb-org.repo
+ADD confs/mongodb-org.repo /etc/yum.repos.d/mongodb-org.repo
 RUN yum -y install mongodb-org
 VOLUME ["/data/db"]
-COPY syncdb.sh /syncdb.sh
+COPY scripts/syncdb.sh /syncdb.sh
 RUN chmod +x /syncdb.sh && sh /syncdb.sh
 
 RUN yum clean all && \
@@ -85,8 +85,8 @@ RUN yum clean all && \
 
 # add supervisor conf
 RUN pip install supervisor-stdout
-ADD supervisord.conf /etc/supervisord.conf
-ADD run_basic.sh /run_basic.sh
+ADD confs/supervisord.conf /etc/supervisord.conf
+ADD scripts/run_basic.sh /run_basic.sh
 
 # Fix missing boost lib for BASIC extsds library
 RUN ln -s /usr/lib64/libboost_thread-mt.so.1.53.0 /usr/lib64/libboost_thread-mt.so.5
@@ -103,4 +103,4 @@ EXPOSE 3306/tcp
 EXPOSE 27017/tcp
 EXPOSE 8000/tcp
 
-ENTRYPOINT ["/run.sh"]
+#ENTRYPOINT ["/run.sh"]
