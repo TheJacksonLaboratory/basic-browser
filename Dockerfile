@@ -103,4 +103,4 @@ EXPOSE 3306/tcp
 EXPOSE 27017/tcp
 EXPOSE 8000/tcp
 
-#ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["/run.sh"]
