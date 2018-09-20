@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:centos7
 
 ENV BASIC_DIR=/opt/basic
 ENV MYSQL_ROOT_PASSWORD 'password'
@@ -6,7 +6,7 @@ ENV LANG "en_US.UTF-8"
 ENV LD_LIBRARY_PATH $BASIC_DIR/_py/lib/python2.7/site-packages/extsds/
 
 # update and install basic utils
-RUN yum update
+RUN yum -y update
 RUN yum install -y epel-release wget gcc
 RUN yum group install -y "Development Tools"
 RUN yum install -y python-devel python-setuptools python-pip
@@ -19,7 +19,7 @@ COPY basic.tar.gz scripts/basic_setup.sh /tmp/
 RUN cd /tmp && bash basic_setup.sh
 
 # Install zlib, XZ, pcre
-RUN yum update
+RUN yum -y update
 RUN yum install -y pcre \
     pcre-devel \
     xz xz-devel \

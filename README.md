@@ -14,6 +14,7 @@ Below are the instructions to run Basic Browser docker image.
 git clone https://github.com/TheJacksonLaboratory/basic-browser.git
 cd basic-browser
 docker build -t basic-browser .
+cd ..
 ```
 
 ## How to run Basic Browser
@@ -30,6 +31,11 @@ The basic browser should be running at localhost:8000. To upload track and data 
 docker exec -ti basic-browser bash
 ```
 
+## Create a username and password through the terminal the first time
+```sh
+cd /opt/basic/
+python manage.py createsuperuser
+```
 
 ## About Data persistence
 When you ran the above command to start Basic browser, it created two volumes mongodb and mysql. You can see the volumes using the command `docker volume ls`. For the data to persist between sessions and between containers, make sure you dont delete these volumes.
