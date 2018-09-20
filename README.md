@@ -2,7 +2,7 @@
 
 
 ## Running Basic Browser
-Below are the instructions to run Basic Browser docker image. 
+Below are the instructions to run Basic Browser docker image.
 
 ## Install Docker
  - [Install Docker for Mac](https://docs.docker.com/v17.09/docker-for-mac/install/)
@@ -11,12 +11,12 @@ Below are the instructions to run Basic Browser docker image.
 
 ## How to build the Basic Browser Docker image
 ```sh
-git clone https://github.com/TheJacksonLaboratory/basic-browser.git 
+git clone https://github.com/TheJacksonLaboratory/basic-browser.git
 cd basic-browser
 docker build -t basic-browser .
 ```
 
-## How to run Basic Browser 
+## How to run Basic Browser
 This creates a mongodb and mysql Docker volumes, which is useful for data persistence
 ```sh
 docker run  -d --rm --name basic-browser \
@@ -32,7 +32,7 @@ docker exec -ti basic-browser bash
 
 
 ## About Data persistence
-When you ran the above command to start Basic browser, it created two volumes mongodb and mysql. You can see the volumes using the command `docker volume ls`. For the data to persist between sessions and between containers, make sure you dont delete these volumes. 
+When you ran the above command to start Basic browser, it created two volumes mongodb and mysql. You can see the volumes using the command `docker volume ls`. For the data to persist between sessions and between containers, make sure you dont delete these volumes.
 
 ## To delete the basic browser container
 ```
@@ -44,7 +44,7 @@ docker rm -f $(docker ps --filter name=basic-browser -q)
 docker restart basic-browser
 ```
 
-# make sure mysql, mongod, and basic browser are running
+## To make sure mysql, mongod, and basic browser are running
 ```sh
 supervisorctl status all
 ```
