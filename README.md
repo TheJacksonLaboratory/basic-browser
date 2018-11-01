@@ -71,7 +71,6 @@ mysql> flush privileges;
 ## Install Genome Assembly on Basic Browser
 Make sure Basic Browser is running at localhost:8000, and you are able to login using your username and password, and a TTY terminal is opened in the container.
 
-
 ```
 source /opt/basic/_py/bin/activate
 _py/bin/python console/table_util.py create hg19 "UCSC Known Genes (hg19)"
@@ -81,20 +80,29 @@ _py/bin/python console/track_util.py gen_genes hg19
 ```
 
 ## Upload Tracks to Basic Browser
+To create a folder to organize tracks, go to admin page -> Librarys -> Add library -> Create a library name ("test_upload") -> save
 
+(1) To upload the tracks, first create a table for coverage, loop and peak, select a folder ("test_upload"), and give the name of the track ("GM12878_RNAPII_coverage")
 ```
 alias TABLE="/opt/basic/_py/bin/python /opt/basic/console/table_util.py" 
 alias TRACK="/opt/basic/_py/bin/python /opt/basic/console/track_util.py"
 TABLE create hg19 -l "test_upload" "GM12878_RNAPII_coverage"
-COV=10
-TRACK gen_cov max ${COV} /Documents/
 TABLE create hg19 -l "test_upload" "GM12878_RNAPII_peak"
-BED=7
-TABLE load ${BED} 1:chrom 2:start 3:end -i /Documents/GM12878_RNAPII_insitu.for.BROWSER.spp.z6.broadPeak
-TRACK new ${BED} scls #set options
 TABLE create hg19 -l "test_upload" "GM12878_RNAPII_loop"
-CLU=6
+```
+(2) Then you will get a TABLE ID for each track, and save the IDs to the corresponding variables:
+```
+COV=2
+CLU=3
+BED=4
+```
+(3) Upload tracks:
+```
 TABLE load ${CLU} 1:chrom 2:start 3:end 4:chrom2 5:start2 6:end2 7:score -i /Documents/GM12878_RNAPII_insitu.e500.clusters.cis.BE3
 TRACK new ${CLU} pcls
 TRACK new ${CLU} curv
+TABLE load ${BED} 1:chrom 2:start 3:end -i /Documents/GM12878_RNAPII_insitu.for.BROWSER.spp.z6.broadPeak
+TRACK new ${BED} scls
+TRACK gen_cov max ${COV} /Documents/GM12878_RNAPII_insitu.for.BROWSER.bedgraph
+
 ```
