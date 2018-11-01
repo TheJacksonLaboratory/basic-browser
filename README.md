@@ -33,8 +33,9 @@ docker exec -ti basic-browser bash
 
 ## Create a username and password through the terminal the first time
 ```sh
+# this should create the superuser 'root'
 cd /opt/basic/
-python manage.py createsuperuser
+$BASIC_DIR/_py/bin/python manage.py createsuperuser
 ```
 
 ## About Data persistence
