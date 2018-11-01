@@ -54,3 +54,16 @@ docker restart basic-browser
 ```sh
 supervisorctl status all
 ```
+
+# A note about passwords
+The mysql root password is not set. If you would like to set the root password, follow these steps
+```sh
+# Login to the machine
+docker exec -ti basic-browser bash
+
+# Update the mysql password
+mysql -u root -p
+mysql> use mysql;
+mysql> update user set password=PASSWORD('your_new_password') where User='root';
+mysql> flush privileges;
+```

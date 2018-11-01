@@ -6,9 +6,9 @@ mysql_install_db --user=mysql --datadir=/var/lib/mysql
 TEMP_FILE='/tmp/mysql-first-time.sql'
 cat > "$TEMP_FILE" <<-EOSQL
      CREATE DATABASE basicdb;
-     GRANT ALL ON basicdb.* TO basicuser IDENTIFIED BY "";
+     GRANT ALL ON basicdb.* TO basicuser IDENTIFIED BY '$BASICUSER_MYSQL_PASSWORD';
      FLUSH PRIVILEGES ;
-     CREATE USER 'basicuser'@'localhost' IDENTIFIED BY '' ;
+     CREATE USER 'basicuser'@'localhost' IDENTIFIED BY '$BASICUSER_MYSQL_PASSWORD' ;
      GRANT ALL PRIVILEGES ON *.* TO 'basicuser'@'localhost';
      FLUSH PRIVILEGES ;
 EOSQL

@@ -1,7 +1,13 @@
 FROM centos:centos7
 
+# usernames and paswords
+ENV MYSQL_USER 'mysql'
+ENV BASICUSER_MYSQL_PASSWORD 'test123'
+ENV BASIC_ADMIN_USERNAME 'admin'
+ENV BASIC_ADMIN_PASSWORD 'password'
+ENV BASIC_ADMIN_EMAIL 'admin@jax.org'
+
 ENV BASIC_DIR=/opt/basic
-ENV MYSQL_ROOT_PASSWORD 'password'
 ENV LANG "en_US.UTF-8"
 ENV LD_LIBRARY_PATH $BASIC_DIR/_py/lib/python2.7/site-packages/extsds/
 
@@ -27,7 +33,8 @@ RUN yum install -y pcre \
     zlib-devel \
     bison \
     git-core \
-    supervisor
+    supervisor \
+    vim
 
 # Install PCRE
 WORKDIR /tmp 
@@ -44,18 +51,17 @@ RUN yum install -y boost boost-devel \
 RUN wget -q http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 RUN rpm -ivh mysql-community-release-el7-5.noarch.rpm
 RUN yum -y update
-RUN yum -y install mysql-server
-RUN yum -y install mysql-devel
+RUN yum -y install mysql-server mysql-devel
 RUN pip install mysql-python
 ADD confs/bind_0.cnf /etc/mysql/conf.d/bind_0.cnf
 
 # create mysql database
-COPY scripts/mysql-run.sh /mysql-run.sh
-RUN chmod 700 /mysql-run.sh
+COPY scripts/mysql-run.sh /scripts/mysql-run.sh
+RUN chmod 700 /scripts/mysql-run.sh
 RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
-RUN . /mysql-run.sh mysqld --datadir=/var/lib/mysql --user=mysql
-ADD scripts/run.sh /run.sh
-RUN chmod 755 /*.sh
+RUN . /scripts/mysql-run.sh mysqld --datadir=/var/lib/mysql --user=$MYSQL_USER
+ADD scripts/run.sh /scripts/run.sh
+RUN chmod 755 /scripts/*.sh
 
 # create mysql volume
 VOLUME ["/var/lib/mysql"]
@@ -76,17 +82,18 @@ RUN $BASIC_DIR/_py/bin/python -m pip install pymongo==2.3
 ADD confs/mongodb-org.repo /etc/yum.repos.d/mongodb-org.repo
 RUN yum -y install mongodb-org
 VOLUME ["/data/db"]
-COPY scripts/syncdb.sh /syncdb.sh
-RUN chmod +x /syncdb.sh && sh /syncdb.sh
+COPY scripts/syncdb.sh /scripts/syncdb.sh
+RUN chmod +x /scripts/syncdb.sh && sh /scripts/syncdb.sh
 
 RUN yum clean all && \
-    rm -rf /var/lib/apt/lists/* \
-    /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* 
+#\
+#    /tmp/* /var/tmp/*
 
 # add supervisor conf
 RUN pip install supervisor-stdout
 ADD confs/supervisord.conf /etc/supervisord.conf
-ADD scripts/run_basic.sh /run_basic.sh
+ADD scripts/run_basic.sh /scripts/run_basic.sh
 
 # Fix missing boost lib for BASIC extsds library
 RUN ln -s /usr/lib64/libboost_thread-mt.so.1.53.0 /usr/lib64/libboost_thread-mt.so.5
@@ -99,8 +106,8 @@ RUN ln -s /usr/lib64/libboost_system.so.1.53.0 /usr/lib64/libboost_system.so.1.4
 # install gis utils
 RUN cd $BASIC_DIR/ds && $BASIC_DIR/_py/bin/python setup.py install
 
-EXPOSE 3306/tcp
-EXPOSE 27017/tcp
+#EXPOSE 3306/tcp
+#EXPOSE 27017/tcp
 EXPOSE 8000/tcp
 
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["/scripts/run.sh"]
