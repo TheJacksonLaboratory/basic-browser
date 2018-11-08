@@ -144,7 +144,7 @@ TABLE load ${CLU} 1:chrom 2:start 3:end 4:chrom2 5:start2 6:end2 7:score -i /Doc
 TRACK new ${CLU} curv
 ```
 # Configure Loop Track
-Go to Tracks in Admin page and select the loop track you just uploaded, under Metadatas "Key" and "Value": 
+Go to Tracks in Admin page and select the loop track you just uploaded, under Metadatas "Key" and "Value", set: 
 
 Key="options",
 Value=
