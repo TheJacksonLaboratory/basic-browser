@@ -3,7 +3,7 @@ FROM centos:centos7
 # usernames and paswords
 ENV MYSQL_USER 'mysql'
 ENV BASICUSER_MYSQL_PASSWORD 'test123'
-ENV BASIC_ADMIN_USERNAME 'admin'
+ENV BASIC_ADMIN_USERNAME 'root'
 ENV BASIC_ADMIN_PASSWORD 'password'
 ENV BASIC_ADMIN_EMAIL 'admin@jax.org'
 
