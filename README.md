@@ -70,6 +70,7 @@ mysql> flush privileges;
 ```
 ## Install Genome Assembly on Basic Browser
 (1)Make sure Basic Browser is running at localhost:8000, and you are able to login using your username and password, and a TTY terminal is opened in the container.
+
 (2)Make sure your files to upload are accessible within the basic browser session. To mount the files in ~/Documents/BasicBrowser/
 ```
 docker run  -d --rm --name basic-browser -p 8000:8000 \
@@ -78,6 +79,7 @@ docker run  -d --rm --name basic-browser -p 8000:8000 \
 basic-browser
 ```
 The files in ~/Documents/BasicBrowser/ will be accessible in /Documents inside basic browser docker
+
 (3)To create a folder to save gene annotation, go to admin page -> Librarys -> Add library -> Create a library name (for example, "annotation") -> save
 
 (4)Install the genome assembly
@@ -98,6 +100,7 @@ docker run  -d --rm --name basic-browser -p 8000:8000 \
 basic-browser
 ```
 The files in ~/Documents/BasicBrowser/ will be accessible in /Documents inside basic browser docker
+
 (2)To create a folder to organize tracks, go to admin page -> Librarys -> Add library -> Create a library name (for example, "test_upload") -> save
 
 # Upload Coverage Track 
@@ -142,7 +145,7 @@ TRACK new ${CLU} curv
 ```
 # Configure Loop Track
 Go to Tracks in Admin page and select the loop track you just uploaded, under Metadatas "Key" and "Value": 
-Key="options"
+Key="options",
 Value=
 {
   "opacity": 0.02,
@@ -153,6 +156,6 @@ Value=
 "log": 10.0 }
 }
 Go to the next row,
-Key="series"
+Key="series",
 Value= [{"color": "red"}]
 
