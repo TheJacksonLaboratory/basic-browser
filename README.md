@@ -39,11 +39,17 @@ $BASIC_DIR/_py/bin/python manage.py createsuperuser
 ```
 
 ## About Data persistence
-When you ran the above command to start Basic browser, it created two volumes mongodb and mysql. You can see the volumes using the command `docker volume ls`. For the data to persist between sessions and between containers, make sure you dont delete these volumes.
+When you ran the above command to start Basic browser, it created two volumes mongodb and mysql. You can see the volumes using the command `docker volume ls`. For the data to persist between sessions and between containers, make sure you dont delete these volumes. If you need to delete the volumes for various reasons, please run 'docker volume rm mysql mongodb'.
 
 ## To delete the basic browser container
 ```
 docker rm -f $(docker ps --filter name=basic-browser -q)
+```
+
+## To stop the basic browser container
+Stopping the container will remove the container, as we are running the container with "--rm" option
+```
+docker stop basic-browser
 ```
 
 ## To restart Basic Browser
@@ -68,6 +74,7 @@ mysql> use mysql;
 mysql> update user set password=PASSWORD('your_new_password') where User='root';
 mysql> flush privileges;
 ```
+
 ## Install Genome Assembly on Basic Browser
 (1)Make sure Basic Browser is running at localhost:8000, and you are able to login using your username and password, and a TTY terminal is opened in the container.
 
