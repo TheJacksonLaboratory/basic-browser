@@ -2,9 +2,9 @@ FROM centos:centos7
 
 # usernames and paswords
 ENV MYSQL_USER 'mysql'
-ENV BASICUSER_MYSQL_PASSWORD 'test123'
+ENV BASICUSER_MYSQL_PASSWORD ''
 ENV BASIC_ADMIN_USERNAME 'root'
-ENV BASIC_ADMIN_PASSWORD 'password'
+ENV BASIC_ADMIN_PASSWORD 'Basic123'
 ENV BASIC_ADMIN_EMAIL 'admin@jax.org'
 
 ENV BASIC_DIR=/opt/basic
@@ -85,11 +85,6 @@ VOLUME ["/data/db"]
 COPY scripts/syncdb.sh /scripts/syncdb.sh
 RUN chmod +x /scripts/syncdb.sh && sh /scripts/syncdb.sh
 
-RUN yum clean all && \
-    rm -rf /var/lib/apt/lists/* 
-#\
-#    /tmp/* /var/tmp/*
-
 # add supervisor conf
 RUN pip install supervisor-stdout
 ADD confs/supervisord.conf /etc/supervisord.conf
@@ -106,8 +101,17 @@ RUN ln -s /usr/lib64/libboost_system.so.1.53.0 /usr/lib64/libboost_system.so.1.4
 # install gis utils
 RUN cd $BASIC_DIR/ds && $BASIC_DIR/_py/bin/python setup.py install
 
-#EXPOSE 3306/tcp
-#EXPOSE 27017/tcp
+# add genome files
+RUN rm -rf /opt/basic/data/genome/* 
+COPY files.zip /tmp
+RUN cd /tmp && unzip files.zip -d /opt/basic/data/genome/
+
+# cleanup
+RUN yum clean all && \
+    rm -rf /var/lib/apt/lists/* \
+    /tmp/* /var/tmp/*
+
+
 EXPOSE 8000/tcp
 
 ENTRYPOINT ["/scripts/run.sh"]
