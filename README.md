@@ -75,6 +75,17 @@ mysql> update user set password=PASSWORD('your_new_password') where User='root';
 mysql> flush privileges;
 ```
 
+## Genome Installation File Download Links
+
+(1) Genome Annotation File: http://genome.ucsc.edu/cgi-bin/hgTables
+
+(2) Go Term File: http://www.geneontology.org/doc/GO.terms_alt_ids
+
+(3) Gene Association File: 
+human: ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/HUMAN/goa_human.gaf.gz
+fly: ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/FLY/goa_fly.gaf.gz
+
+
 ## Install Genome Assembly on Basic Browser
 (1)Make sure Basic Browser is running at localhost:8000, and you are able to login using your username and password, and a TTY terminal is opened in the container.
 
