@@ -82,7 +82,9 @@ mysql> flush privileges;
 (2) Go Term File: http://www.geneontology.org/doc/GO.terms_alt_ids
 
 (3) Gene Association File: 
+
 human: ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/HUMAN/goa_human.gaf.gz
+
 fly: ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/FLY/goa_fly.gaf.gz
 
 
