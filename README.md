@@ -1,6 +1,6 @@
 # Basic Browser
 
-# Basic Browser can take ChIA-PIPE outputs: https://github.com/TheJacksonLaboratory/chia_pipe
+## Basic Browser can take ChIA-PIPE outputs: https://github.com/TheJacksonLaboratory/chia_pipe
 
 ## Running Basic Browser
 Below are the instructions to run Basic Browser docker image.
