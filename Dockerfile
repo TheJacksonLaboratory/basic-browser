@@ -18,7 +18,8 @@ RUN yum group install -y "Development Tools"
 RUN yum install -y python-devel python-setuptools python-pip
 RUN yum install -y automake
 RUN pip install --upgrade pip
-RUN pip install virtualenv
+RUN pip install virtualenv==16.7.10 
+RUN pip install pygments
 
 # copy Basic Browser source code
 COPY basic.tar.gz scripts/basic_setup.sh /tmp/
@@ -39,7 +40,7 @@ RUN yum install -y pcre \
 # Install PCRE
 WORKDIR /tmp 
 RUN git clone https://github.com/swig/swig.git
-RUN cd /tmp/swig && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz && \
+RUN cd /tmp/swig && wget ftp.pcre.org/pub/pcre/pcre-8.38.tar.gz && \
     bash Tools/pcre-build.sh
 RUN cd /tmp/swig && ./autogen.sh && ./configure && make && make install
 
